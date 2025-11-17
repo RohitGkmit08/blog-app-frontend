@@ -1,26 +1,25 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Home from "../pages/home/Home";
-import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
+import Home from "../pages/Home/Home";
 import BlogDetails from "../pages/BlogDetails/BlogDetails";
+import MainLayout from "../layouts/MainLayout";
+
+import AdminLayout from "../layouts/AdminLayout";
 import AdminLogin from "../pages/AdminLogin/AdminLogin";
+import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
+import CreateBlog from "../pages/CreateBlog/CreateBlog";
 import UpdateBlog from "../pages/UpdateBlog/UpdateBlog";
 import CommentModeration from "../pages/CommentModeration/CommentModeration";
-import CreateBlog from "../pages/CreateBlog/CreateBlog";
-import MainLayout from "../layouts/MainLayout";
-import AdminLayout from "../layouts/AdminLayout";
+
+import RequireAuth from "../components/RequireAuth";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
-      { 
-        path: "/", element: <Home /> 
-      },
-      { 
-        path: "/blog/:id", element: <BlogDetails /> 
-      },
+      { index: true, element: <Home /> },
+      { path: "blog/:id", element: <BlogDetails /> },
     ],
   },
 
@@ -29,12 +28,40 @@ const router = createBrowserRouter([
     element: <AdminLayout />,
     children: [
       { path: "login", element: <AdminLogin /> },
-      { path: "dashboard", element: <AdminDashboard /> },
-      { path: "blog/create", element: <CreateBlog /> },
-      { path: "blog/edit/:id", element: <UpdateBlog /> },
-      { path: "comments", element: <CommentModeration /> },
+      {
+        path: "dashboard",
+        element: (
+          <RequireAuth>
+            <AdminDashboard />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: "blog/create",
+        element: (
+          <RequireAuth>
+            <CreateBlog />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: "blog/edit/:id",
+        element: (
+          <RequireAuth>
+            <UpdateBlog />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: "comments",
+        element: (
+          <RequireAuth>
+            <CommentModeration />
+          </RequireAuth>
+        ),
+      },
     ],
   },
 ]);
 
-export default router
+export default router;
