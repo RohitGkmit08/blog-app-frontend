@@ -7,16 +7,34 @@ import AdminLogin from "../pages/AdminLogin/AdminLogin";
 import UpdateBlog from "../pages/UpdateBlog/UpdateBlog";
 import CommentModeration from "../pages/CommentModeration/CommentModeration";
 import CreateBlog from "../pages/CreateBlog/CreateBlog";
+import MainLayout from "../layouts/MainLayout";
+import AdminLayout from "../layouts/AdminLayout";
 
 const router = createBrowserRouter([
-    {path : '/', element:<Home/> },
-    {path : '/blog/:id', element:<BlogDetails/>},
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { 
+        path: "/", element: <Home /> 
+      },
+      { 
+        path: "/blog/:id", element: <BlogDetails /> 
+      },
+    ],
+  },
 
-    { path: "/admin/login", element: <AdminLogin /> },
-  { path: "/admin/dashboard", element: <AdminDashboard /> },
-  { path: "/admin/blog/create", element: <CreateBlog /> },
-  { path: "/admin/blog/edit/:id", element: <UpdateBlog /> },
-  { path: "/admin/comments", element: <CommentModeration /> },
-])
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      { path: "login", element: <AdminLogin /> },
+      { path: "dashboard", element: <AdminDashboard /> },
+      { path: "blog/create", element: <CreateBlog /> },
+      { path: "blog/edit/:id", element: <UpdateBlog /> },
+      { path: "comments", element: <CommentModeration /> },
+    ],
+  },
+]);
 
 export default router
