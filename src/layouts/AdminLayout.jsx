@@ -1,12 +1,12 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import DashboardLayout from "./DashboardLayout";
+import Blogs from "../pages/AdminDashboard/Blogs";
 
-const AdminLayout = () => {
+const AdminDashboard = () => {
   return (
-    <div>
-        <Outlet/>
-    </div>
-  )
-}
+    <DashboardLayout>
+      <Blogs />
+    </DashboardLayout>
+  );
+};
 
-export default AdminLayout
+export default AdminDashboard;

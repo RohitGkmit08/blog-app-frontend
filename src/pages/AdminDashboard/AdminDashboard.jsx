@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import { useAdminAuth } from "../../context/AdminAuthContext";
 
 const AdminDashboard = () => {
-  return (
-    <div>AdminDashboard</div>
-  )
-}
+  const { logout } = useAdminAuth();
 
-export default AdminDashboard
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+};
+
+export default AdminDashboard;
