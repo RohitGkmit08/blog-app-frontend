@@ -1,26 +1,24 @@
 import { useState } from "react";
-import AdminAuth from "./AdminAuthContext";
+import { AdminAuthContext } from "./AdminAuthContext";
 
-export default function AdminAuthProvider({ children }) {
-  const [token, setToken] = useState(() => {
-    return localStorage.getItem("adminToken") || null;
-  });
+export function AdminAuthProvider({ children }) {
+  const [token, setToken] = useState(() => localStorage.getItem("adminToken"));
+
+  const isLoggedIn = !!token;
 
   const login = (newToken) => {
-    setToken(newToken);
     localStorage.setItem("adminToken", newToken);
+    setToken(newToken);
   };
 
   const logout = () => {
-    setToken(null);
     localStorage.removeItem("adminToken");
+    setToken(null);
   };
 
-  const isLoggedIn = Boolean(token);
-
   return (
-    <AdminAuth.Provider value={{ token, login, logout, isLoggedIn }}>
+    <AdminAuthContext.Provider value={{ token, isLoggedIn, login, logout }}>
       {children}
-    </AdminAuth.Provider>
+    </AdminAuthContext.Provider>
   );
 }

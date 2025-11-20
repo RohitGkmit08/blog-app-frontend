@@ -1,21 +1,16 @@
-import axios from "axios";
+import api from "./api";
 
-const API = axios.create({
-  baseURL: "http://localhost:3000",
-});
-
-// PUBLIC
 export const getAllBlogs = async () => {
-  const res = await API.get("/api/blogs");
+  const res = await api.get("/blogs");
   return res.data;
 };
 
 export const getBlogById = async (id) => {
-  const res = await API.get(`/api/blogs/${id}`);
+  const res = await api.get(`/blogs/${id}`);
   return res.data;
 };
 
 export const getApprovedComments = async (id) => {
-  const res = await API.get(`/api/blogs/${id}/comments`);
+  const res = await api.get(`/blogs/${id}/comments`);
   return res.data;
 };

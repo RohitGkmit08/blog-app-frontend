@@ -1,7 +1,7 @@
-import React from "react";
-import { useAdminAuth } from "../../context/AdminAuthContext";
+import { useAdminAuth } from "../../context/useAdminAuth";
 
-const AdminDashboard = () => {
+
+export default function AdminDashboard() {
   const { logout } = useAdminAuth();
 
   return (
@@ -10,6 +10,4 @@ const AdminDashboard = () => {
       <button onClick={logout}>Logout</button>
     </div>
   );
-};
-
-export default AdminDashboard;
+}
