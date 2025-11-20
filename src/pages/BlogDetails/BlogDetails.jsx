@@ -1,5 +1,5 @@
-<<<<<<< Updated upstream
-=======
+
+
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
@@ -370,4 +370,4 @@ const buttonStyle = {
   fontSize: 16,
   cursor: "pointer",
 };
->>>>>>> Stashed changes
+

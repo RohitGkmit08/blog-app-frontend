@@ -1,5 +1,5 @@
-<<<<<<< Updated upstream
-=======
+
+
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import SubscribeBox from "../../components/SubscribeBox";
@@ -194,4 +194,3 @@ const emailLink = {
 };
 
 export default Home;
->>>>>>> Stashed changes

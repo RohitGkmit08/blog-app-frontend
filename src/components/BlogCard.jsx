@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 import { Link } from "react-router-dom";
 
 const cardStyle = {
@@ -75,4 +74,4 @@ export default function BlogCard({ blog }) {
     </article>
   );
 }
->>>>>>> Stashed changes
+

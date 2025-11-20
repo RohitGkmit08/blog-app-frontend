@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 import api from "./api";
 
 // Get all published blogs (public)
@@ -19,4 +18,4 @@ export const getApprovedComments = async (blogId) => {
   const res = await api.get(`/comments/${blogId}`);
   return res.data;
 };
->>>>>>> Stashed changes
+
