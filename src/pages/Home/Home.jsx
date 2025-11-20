@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import SubscribeBox from "../../components/SubscribeBox";
@@ -20,8 +18,6 @@ const Home = () => {
       setLoading(true);
       setError("");
       const res = await getAllBlogs();
-
-      // backend returns: { success, blogs }
       setBlogs(res.blogs || []);
     } catch (err) {
       setError("Failed to load blogs.");
@@ -35,7 +31,7 @@ const Home = () => {
     loadBlogs();
   }, [loadBlogs]);
 
-  // categories filtering
+  // Only categories that exist in dropdown list
   const categories = useMemo(() => {
     const found = new Set();
 
@@ -49,6 +45,7 @@ const Home = () => {
     return Array.from(found);
   }, [blogs]);
 
+  // Filtering logic 
   const filteredBlogs = useMemo(() => {
     if (!selectedCategory) return blogs;
 
@@ -94,7 +91,6 @@ const Home = () => {
 
   return (
     <div>
-      {/* HERO SECTION */}
       <section style={{ textAlign: "center", marginBottom: "40px" }}>
         <p style={{ letterSpacing: 5, color: "#6b7280" }}>BLOG PLATFORM</p>
         <h1 style={{ fontSize: "2.5rem", marginTop: 10 }}>
@@ -105,7 +101,6 @@ const Home = () => {
         </p>
       </section>
 
-      {/* CONTENT */}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -115,7 +110,6 @@ const Home = () => {
       ) : (
         <>
           {renderFilters()}
-
           {filteredBlogs.length === 0 ? (
             <p style={{ marginTop: 24 }}>No blogs found in this category.</p>
           ) : (
@@ -126,7 +120,6 @@ const Home = () => {
                 gap: "24px",
               }}
             >
-              {/* IMPORTANT: USE blog.slug */}
               {filteredBlogs.map((blog) => (
                 <BlogCard key={blog._id} blog={blog} />
               ))}
@@ -137,7 +130,6 @@ const Home = () => {
 
       <SubscribeBox />
 
-      {/* FOOTER */}
       <footer style={footerCta}>
         <h3 style={{ marginBottom: 8, fontSize: "1.5rem" }}>
           Want to share your ideas with the world?

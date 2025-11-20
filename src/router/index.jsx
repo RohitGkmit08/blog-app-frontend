@@ -1,10 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
 import RequireAuth from "../components/RequireAuth";
 
 import Home from "../pages/Home/Home";
 import BlogDetails from "../pages/BlogDetails/BlogDetails";
+import ShareIdeas from "../pages/ShareIdeas/ShareIdeas";
+import ShareIdeasSuccess from "../pages/ShareIdeas/ShareIdeasSuccess";
 
 import AdminLogin from "../pages/AdminLogin/AdminLogin";
 import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
@@ -26,81 +29,30 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "blog/:slug", element: <BlogDetails /> },
+      { path: "share-ideas", element: <ShareIdeas /> },
+      { path: "share-ideas/success", element: <ShareIdeasSuccess /> },
     ],
   },
 
   { path: "/admin/login", element: <AdminLogin /> },
 
   {
-    path: "/admin",
+    path: "/admin/dashboard",
     element: (
       <RequireAuth>
-        <AdminDashboard />
+        <DashboardLayout />
       </RequireAuth>
     ),
-  },
-
-  {
-    path: "/admin/blogs",
-    element: (
-      <RequireAuth>
-        <AdminBlogs />
-      </RequireAuth>
-    ),
-  },
-
-  {
-    path: "/admin/blog/create",
-    element: (
-      <RequireAuth>
-        <CreateBlog />
-      </RequireAuth>
-    ),
-  },
-
-  {
-    path: "/admin/blog/edit/:id",
-    element: (
-      <RequireAuth>
-        <UpdateBlog />
-      </RequireAuth>
-    ),
-  },
-
-  {
-    path: "/admin/comments/pending",
-    element: (
-      <RequireAuth>
-        <PendingComments />
-      </RequireAuth>
-    ),
-  },
-
-  {
-    path: "/admin/comments/approved",
-    element: (
-      <RequireAuth>
-        <ApprovedComments />
-      </RequireAuth>
-    ),
-  },
-
-  {
-    path: "/admin/comments/rejected",
-    element: (
-      <RequireAuth>
-        <RejectedComments />
-      </RequireAuth>
-    ),
-  },
-
-  {
-    path: "/admin/subscribers",
-    element: (
-      <RequireAuth>
-        <Subscribers />
-      </RequireAuth>
-    ),
+    children: [
+      { index: true, element: <AdminDashboard /> },
+      { path: "blogs", element: <AdminBlogs /> },
+      { path: "blog/create", element: <CreateBlog /> },
+      { path: "blog/edit/:id", element: <UpdateBlog /> },
+      { path: "comments/pending", element: <PendingComments /> },
+      { path: "comments/approved", element: <ApprovedComments /> },
+      { path: "comments/rejected", element: <RejectedComments /> },
+      { path: "subscribers", element: <Subscribers /> },
+    ],
   },
 ]);
 

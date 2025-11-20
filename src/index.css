@@ -1,7 +1,4 @@
 
-@import "tailwindcss";
-
-
 html, body {
   margin: 0;
   padding: 0;
@@ -12,5 +9,4 @@ html, body {
 * {
   box-sizing: border-box;
 }
-
 
