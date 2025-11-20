@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const cardStyle = {
@@ -21,43 +20,25 @@ const imageStyle = {
 };
 
 export default function BlogCard({ blog }) {
-  const slug = blog.slug;
-
   return (
     <article style={cardStyle}>
       {blog.image && (
         <img src={blog.image} alt={blog.title} style={imageStyle} />
       )}
 
-      <div
-        style={{
-          padding: "20px",
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <p
-          style={{
-            textTransform: "uppercase",
-            color: "#6b7280",
-            fontSize: 13,
-          }}
-        >
+      <div style={{ padding: "20px", flex: 1, display: "flex", flexDirection: "column" }}>
+        <p style={{ textTransform: "uppercase", color: "#6b7280", fontSize: 13 }}>
           {blog.category}
         </p>
 
-        {/* Use slug ONLY */}
         <Link
-          to={`/blog/${slug}`}
+          to={`/blog/${blog.slug || blog._id}`}
           style={{
             color: "#111827",
             textDecoration: "none",
           }}
         >
-          <h3 style={{ margin: "8px 0 12px", fontSize: "1.25rem" }}>
-            {blog.title}
-          </h3>
+          <h3 style={{ margin: "8px 0 12px", fontSize: "1.25rem" }}>{blog.title}</h3>
         </Link>
 
         <p style={{ color: "#4b5563", flex: 1 }}>
@@ -74,4 +55,3 @@ export default function BlogCard({ blog }) {
     </article>
   );
 }
-
