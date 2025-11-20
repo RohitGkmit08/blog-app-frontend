@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
@@ -35,8 +33,7 @@ export default function BlogDetails() {
       return;
     }
     try {
-      // FIXED: correct backend route
-      const res = await api.get(`/comments/${blogId}`);
+      const res = await api.get(`/comments/${blogId}/approved`);
       setComments(res.data.comments || []);
     } catch (err) {
       console.error("Error loading comments:", err);
@@ -46,24 +43,18 @@ export default function BlogDetails() {
   const loadBlog = useCallback(async () => {
     setLoading(true);
     setError("");
-
     try {
-      // FIXED: correct backend route for fetching blog
-      const res = await api.get(`/blog/${slug}`);
-
+      const res = await api.get(`/blogs/${slug}`);
       setBlog(res.data.blog);
       await loadApprovedComments(res.data.blog?._id);
     } catch (err) {
       const token = localStorage.getItem("adminToken");
       const canUseAdminFallback = token && looksLikeObjectId(slug);
 
-      // admin fallback (ID-based)
       if (canUseAdminFallback) {
         try {
           const adminRes = await api.get(`/admin/blogs/${slug}`);
-          const fallbackBlog =
-            adminRes.data.blog || adminRes.data.updatedBlog;
-
+          const fallbackBlog = adminRes.data.blog || adminRes.data.updatedBlog;
           setBlog(fallbackBlog);
           await loadApprovedComments(fallbackBlog?._id);
           return;
@@ -78,7 +69,6 @@ export default function BlogDetails() {
             : "Unable to load this blog."
         );
       }
-
       console.error("Error loading blog:", err);
     } finally {
       setLoading(false);
@@ -88,7 +78,6 @@ export default function BlogDetails() {
   const handleCommentSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-
       if (!userComment.trim()) {
         setCommentStatus("Please enter a comment before submitting.");
         return;
@@ -103,8 +92,7 @@ export default function BlogDetails() {
       }
 
       try {
-        // FIXED: correct backend route for adding comments
-        await api.post(`/comments`, {
+        await api.post(`/comments/add`, {
           blogId,
           userId: "AnonymousUser",
           comment: userComment,
@@ -182,7 +170,6 @@ export default function BlogDetails() {
         <p>{blog.description}</p>
       </section>
 
-      {/* COMMENTS */}
       <section style={{ marginTop: 48 }}>
         <div style={sectionHeader}>
           <h2 style={{ margin: 0 }}>Comments</h2>
@@ -203,22 +190,17 @@ export default function BlogDetails() {
                   <strong>{c.userId}</strong>
                   <span>{new Date(c.createdAt).toLocaleString()}</span>
                 </div>
-                <p style={{ marginTop: 8, color: "#1f2937" }}>
-                  {c.comment}
-                </p>
+                <p style={{ marginTop: 8, color: "#1f2937" }}>{c.comment}</p>
               </div>
             ))}
           </div>
         )}
       </section>
 
-      {/* COMMENT FORM */}
       <section style={formWrapper}>
         <h3 style={{ marginBottom: 12 }}>Leave a Comment</h3>
         {commentStatus && (
-          <p style={{ color: "#2563eb", marginBottom: 12 }}>
-            {commentStatus}
-          </p>
+          <p style={{ color: "#2563eb", marginBottom: 12 }}>{commentStatus}</p>
         )}
         <form onSubmit={handleCommentSubmit}>
           <label style={labelStyle}>
@@ -231,7 +213,6 @@ export default function BlogDetails() {
               style={inputStyle}
             />
           </label>
-
           <textarea
             value={userComment}
             onChange={(e) => setUserComment(e.target.value)}
@@ -247,8 +228,6 @@ export default function BlogDetails() {
     </article>
   );
 }
-
-/* ------------------------ STYLES ------------------------ */
 
 const pageStyle = {
   maxWidth: 860,
@@ -370,4 +349,3 @@ const buttonStyle = {
   fontSize: 16,
   cursor: "pointer",
 };
-

@@ -1,21 +1,16 @@
-
 import api from "./api";
 
-// Get all published blogs (public)
 export const getAllBlogs = async () => {
-  const res = await api.get("/blog/list");
+  const res = await api.get("/blogs");
   return res.data;
 };
 
-// Get single blog by slug (public)
-export const getBlogBySlug = async (slug) => {
-  const res = await api.get(`/blog/${slug}`);
+export const getBlogById = async (id) => {
+  const res = await api.get(`/blogs/${id}`);
   return res.data;
 };
 
-// Get approved comments for a blog
-export const getApprovedComments = async (blogId) => {
-  const res = await api.get(`/comments/${blogId}`);
+export const getApprovedComments = async (id) => {
+  const res = await api.get(`/blogs/${id}/comments`);
   return res.data;
 };
-
