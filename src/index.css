@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
-@import "tailwindcss";
-=======
-@import "tailwindcss";
 
-
+@import "tailwindcss";
 
 
 html, body {
@@ -17,4 +13,4 @@ html, body {
   box-sizing: border-box;
 }
 
->>>>>>> Stashed changes
+
