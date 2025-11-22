@@ -21,7 +21,6 @@ const Home = () => {
       setBlogs(res.blogs || []);
     } catch (err) {
       setError("Failed to load blogs.");
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -33,22 +32,17 @@ const Home = () => {
 
   const categories = useMemo(() => {
     const found = new Set();
-
     blogs.forEach((blog) => {
       const c = blog.category?.trim().toLowerCase();
-      if (allowedCategories.includes(c)) {
-        found.add(c);
-      }
+      if (allowedCategories.includes(c)) found.add(c);
     });
-
     return Array.from(found);
   }, [blogs]);
 
   const filteredBlogs = useMemo(() => {
     if (!selectedCategory) return blogs;
     return blogs.filter(
-      (blog) =>
-        blog.category?.toLowerCase() === selectedCategory.toLowerCase()
+      (blog) => blog.category?.toLowerCase() === selectedCategory.toLowerCase()
     );
   }, [blogs, selectedCategory]);
 
@@ -87,14 +81,16 @@ const Home = () => {
   );
 
   return (
-    <div style={{ padding: "0 24px" }}>
+    <div style={{ padding: "0 20px" }}>
       {/* HERO */}
-      <section style={heroWrapper}>
-        <p style={heroTopLabel}>BLOG PLATFORM</p>
-        <h1 style={heroTitle}>
+      <section style={heroSection}>
+        <p style={heroTag}>BLOG PLATFORM</p>
+
+        <h1 style={heroHeading}>
           Thoughtfully written posts, with space for your voice too
         </h1>
-        <p style={heroSubtitle}>
+
+        <p style={heroSub}>
           A curated collection of articles from the admin desk — with
           opportunities for readers to get featured.
         </p>
@@ -116,7 +112,7 @@ const Home = () => {
               No blogs found in this category.
             </p>
           ) : (
-            <div style={cardGrid}>
+            <div style={gridStyle}>
               {filteredBlogs.map((blog) => (
                 <BlogCard key={blog._id} blog={blog} />
               ))}
@@ -145,39 +141,38 @@ const Home = () => {
 
 /* ---------- STYLES ---------- */
 
-const heroWrapper = {
+const heroSection = {
   textAlign: "center",
-  margin: "40px auto 50px",
-  maxWidth: "720px",
+  marginBottom: "48px",
+  marginTop: "20px",
 };
 
-const heroTopLabel = {
-  letterSpacing: "5px",
+const heroTag = {
+  letterSpacing: 5,
   color: "#6b7280",
-  marginBottom: 10,
-  fontSize: "0.9rem",
+  fontSize: "0.8rem",
 };
 
-const heroTitle = {
-  fontSize: "2.4rem",
-  marginTop: 10,
-  lineHeight: 1.3,
-  fontWeight: 700,
-  color: "#111827",
+const heroHeading = {
+  fontSize: "2.8rem",
+  marginTop: "10px",
+  marginBottom: "10px",
+  lineHeight: 1.2,
 };
 
-const heroSubtitle = {
-  marginTop: 14,
+const heroSub = {
   color: "#4b5563",
   fontSize: "1.05rem",
+  maxWidth: "520px",
+  margin: "0 auto",
 };
 
 const filterBar = {
   display: "flex",
   flexWrap: "wrap",
-  gap: "10px",
-  margin: "0 auto 28px",
   justifyContent: "center",
+  gap: "12px",
+  marginBottom: 24,
 };
 
 const filterButtonStyle = {
@@ -197,10 +192,12 @@ const activeFilterButtonStyle = {
   borderColor: "#111827",
 };
 
-const cardGrid = {
+const gridStyle = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fill, minmax(290px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
   gap: "28px",
+  maxWidth: "1200px",
+  margin: "0 auto",
 };
 
 const footerCta = {
