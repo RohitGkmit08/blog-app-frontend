@@ -1,12 +1,6 @@
-
 import axios from "axios";
 
-
-const RAW_BASE =
-  import.meta.env.VITE_BASE_URL || "http://98.93.198.247:3000/api";
-
-
-const BASE_URL = RAW_BASE.replace(/\/$/, "");
+const BASE_URL = import.meta.env.VITE_BASE_URL.replace(/\/$/, "");
 
 const api = axios.create({
   baseURL: BASE_URL,

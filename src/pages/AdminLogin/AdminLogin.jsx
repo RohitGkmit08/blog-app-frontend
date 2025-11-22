@@ -20,7 +20,8 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const res = await api.post("/admin/login", { email, password });
+      const res = await api.post("/api/admin/login", { email, password });
+
 
       if (res.data?.token) {
         login(res.data.token);  // save token in context + localStorage

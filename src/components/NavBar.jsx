@@ -2,34 +2,34 @@ import { Link } from "react-router-dom";
 
 const navStyle = {
   width: "100%",
-  maxWidth: "100%",
-  padding: "12px 24px",
-  borderBottom: "1px solid rgb(229,231,235)",
+  padding: "14px 32px",
+  borderBottom: "1px solid #e2e8f0",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  background: "rgba(255,255,255)",
+  background: "#ffffffee",
   position: "sticky",
   top: 0,
+  backdropFilter: "blur(8px)",
+  zIndex: 50,
   boxSizing: "border-box",
-  overflowX: "hidden"
 };
 
-
 const brandStyle = {
-  fontSize: "1.5rem",
+  fontSize: "1.4rem",
   fontWeight: 700,
   color: "#0f172a",
   textDecoration: "none",
-  letterSpacing: "0.5px",
+  letterSpacing: "0.3px",
   display: "flex",
   alignItems: "center",
+  transition: "0.2s ease",
 };
 
 const linkRow = {
   display: "flex",
   alignItems: "center",
-  gap: "12px",                     
+  gap: "14px",
 };
 
 const pillButton = {
@@ -39,8 +39,8 @@ const pillButton = {
   textDecoration: "none",
   fontWeight: 600,
   color: "#0f172a",
-  transition: "0.2s ease",
   background: "#fff",
+  transition: "0.2s ease",
 };
 
 const primaryButton = {
@@ -54,11 +54,20 @@ export default function NavBar() {
   return (
     <nav style={navStyle}>
       <Link to="/" style={brandStyle}>
-        BlogApp
+        DailyPost
       </Link>
 
       <div style={linkRow}>
-        <Link to="/admin/login" style={primaryButton}>
+        <Link
+          to="/admin/login"
+          style={primaryButton}
+          onMouseEnter={e => {
+            e.target.style.opacity = "0.85";
+          }}
+          onMouseLeave={e => {
+            e.target.style.opacity = "1";
+          }}
+        >
           Login
         </Link>
       </div>

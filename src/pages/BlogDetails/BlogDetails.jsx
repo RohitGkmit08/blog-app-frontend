@@ -33,7 +33,8 @@ export default function BlogDetails() {
       return;
     }
     try {
-      const res = await api.get(`/comments/${blogId}/approved`);
+      const res = await api.get(`/api/comments/${blogId}/approved`);
+
       setComments(res.data.comments || []);
     } catch (err) {
       console.error("Error loading comments:", err);
@@ -44,7 +45,7 @@ export default function BlogDetails() {
     setLoading(true);
     setError("");
     try {
-      const res = await api.get(`/blogs/${slug}`);
+      const res = await api.get(`/api/blogs/${slug}`);
       setBlog(res.data.blog);
       await loadApprovedComments(res.data.blog?._id);
     } catch (err) {
@@ -53,7 +54,7 @@ export default function BlogDetails() {
 
       if (canUseAdminFallback) {
         try {
-          const adminRes = await api.get(`/admin/blogs/${slug}`);
+          const adminRes = await api.get(`/api/admin/blogs/${slug}`);
           const fallbackBlog = adminRes.data.blog || adminRes.data.updatedBlog;
           setBlog(fallbackBlog);
           await loadApprovedComments(fallbackBlog?._id);
@@ -92,7 +93,7 @@ export default function BlogDetails() {
       }
 
       try {
-        await api.post(`/comments/add`, {
+          await api.post(`/api/comments/add`, {
           blogId,
           userId: "AnonymousUser",
           comment: userComment,

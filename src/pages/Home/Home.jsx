@@ -31,7 +31,6 @@ const Home = () => {
     loadBlogs();
   }, [loadBlogs]);
 
-  // Only categories that exist in dropdown list
   const categories = useMemo(() => {
     const found = new Set();
 
@@ -45,10 +44,8 @@ const Home = () => {
     return Array.from(found);
   }, [blogs]);
 
-  // Filtering logic 
   const filteredBlogs = useMemo(() => {
     if (!selectedCategory) return blogs;
-
     return blogs.filter(
       (blog) =>
         blog.category?.toLowerCase() === selectedCategory.toLowerCase()
@@ -90,36 +87,36 @@ const Home = () => {
   );
 
   return (
-    <div>
-      <section style={{ textAlign: "center", marginBottom: "40px" }}>
-        <p style={{ letterSpacing: 5, color: "#6b7280" }}>BLOG PLATFORM</p>
-        <h1 style={{ fontSize: "2.5rem", marginTop: 10 }}>
-          Fresh stories from our writers
+    <div style={{ padding: "0 24px" }}>
+      {/* HERO */}
+      <section style={heroWrapper}>
+        <p style={heroTopLabel}>BLOG PLATFORM</p>
+        <h1 style={heroTitle}>
+          Thoughtfully written posts, with space for your voice too
         </h1>
-        <p style={{ color: "#4b5563", marginTop: 12 }}>
-          Read the latest published articles from the admin desk.
+        <p style={heroSubtitle}>
+          A curated collection of articles from the admin desk — with
+          opportunities for readers to get featured.
         </p>
       </section>
 
+      {/* BLOG LIST */}
       {loading ? (
         <Loader />
       ) : error ? (
-        <p style={{ color: "red" }}>{error}</p>
+        <p style={{ color: "red", textAlign: "center" }}>{error}</p>
       ) : blogs.length === 0 ? (
-        <p>No blogs have been published yet.</p>
+        <p style={{ textAlign: "center" }}>No blogs have been published yet.</p>
       ) : (
         <>
           {renderFilters()}
+
           {filteredBlogs.length === 0 ? (
-            <p style={{ marginTop: 24 }}>No blogs found in this category.</p>
+            <p style={{ marginTop: 24, textAlign: "center" }}>
+              No blogs found in this category.
+            </p>
           ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                gap: "24px",
-              }}
-            >
+            <div style={cardGrid}>
               {filteredBlogs.map((blog) => (
                 <BlogCard key={blog._id} blog={blog} />
               ))}
@@ -130,11 +127,12 @@ const Home = () => {
 
       <SubscribeBox />
 
+      {/* FOOTER CTA */}
       <footer style={footerCta}>
-        <h3 style={{ marginBottom: 8, fontSize: "1.5rem" }}>
+        <h3 style={{ marginBottom: 8, fontSize: "1.6rem", fontWeight: 700 }}>
           Want to share your ideas with the world?
         </h3>
-        <p style={{ color: "#e5e7eb", fontSize: "1.05rem" }}>
+        <p style={{ color: "#e5e7eb", fontSize: "1.1rem" }}>
           Connect with me at{" "}
           <Link to="/share-ideas" style={emailLink}>
             sinharohit96690@gmail.com
@@ -145,22 +143,52 @@ const Home = () => {
   );
 };
 
+/* ---------- STYLES ---------- */
+
+const heroWrapper = {
+  textAlign: "center",
+  margin: "40px auto 50px",
+  maxWidth: "720px",
+};
+
+const heroTopLabel = {
+  letterSpacing: "5px",
+  color: "#6b7280",
+  marginBottom: 10,
+  fontSize: "0.9rem",
+};
+
+const heroTitle = {
+  fontSize: "2.4rem",
+  marginTop: 10,
+  lineHeight: 1.3,
+  fontWeight: 700,
+  color: "#111827",
+};
+
+const heroSubtitle = {
+  marginTop: 14,
+  color: "#4b5563",
+  fontSize: "1.05rem",
+};
+
 const filterBar = {
   display: "flex",
   flexWrap: "wrap",
-  gap: "12px",
-  marginBottom: 24,
+  gap: "10px",
+  margin: "0 auto 28px",
+  justifyContent: "center",
 };
 
 const filterButtonStyle = {
   borderRadius: 999,
   border: "1px solid #d1d5db",
-  padding: "8px 18px",
+  padding: "8px 20px",
   fontSize: 14,
   background: "#fff",
   color: "#111827",
   cursor: "pointer",
-  transition: "all 0.2s ease",
+  transition: "all 0.25s ease",
 };
 
 const activeFilterButtonStyle = {
@@ -169,9 +197,15 @@ const activeFilterButtonStyle = {
   borderColor: "#111827",
 };
 
+const cardGrid = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fill, minmax(290px, 1fr))",
+  gap: "28px",
+};
+
 const footerCta = {
-  marginTop: 60,
-  padding: "32px 24px",
+  marginTop: 70,
+  padding: "40px 24px",
   borderRadius: 20,
   background: "#111827",
   color: "#fff",

@@ -8,7 +8,7 @@ export default function ApprovedComments() {
 
   const loadBlogs = useCallback(async () => {
     try {
-      const res = await api.get("/admin/blogs");
+      const res = await api.get("/api/admin/blogs")
       setBlogs(res.data.blogs || []);
     } catch (err) {
       console.error(err);
