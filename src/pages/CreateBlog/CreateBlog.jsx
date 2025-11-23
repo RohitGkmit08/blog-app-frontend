@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { useAdminAuth } from "../../context/useAdminAuth";
 import { slugifyInput } from "../../utils/slug";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,6 @@ export default function CreateBlog() {
   const [status, setStatus] = useState("");
 
   const { token } = useAdminAuth();
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
 
   const categories = ["sports", "tech", "entertainment", "art"];
@@ -76,10 +75,9 @@ export default function CreateBlog() {
       formData.append("blog", JSON.stringify(blogData));
       formData.append("image", imageFile);
 
-      const res = await axios.post(`${BASE_URL}/api/admin/blogs`, formData, {
+      const res = await api.post("/admin/blogs", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
       });
 

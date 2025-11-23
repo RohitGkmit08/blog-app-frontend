@@ -1,18 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import api from "../../../services/api";
 import { Link } from "react-router-dom";
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-
   const fetchBlogs = useCallback(async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/api/admin/blogs`, {
-        withCredentials: true,
-      });
+      const res = await api.get("/admin/blogs");
 
       if (res.data && Array.isArray(res.data.blogs)) {
         setBlogs(res.data.blogs);
@@ -24,21 +20,19 @@ export default function Blogs() {
     } finally {
       setLoading(false);
     }
-  }, [BASE_URL]);
+  }, []);
 
   const handleDelete = useCallback(
     async (id) => {
       try {
-        await axios.delete(`${BASE_URL}/api/admin/blogs/${id}`, {
-          withCredentials: true,
-        });
+        await api.delete(`/admin/blogs/${id}`);
 
         setBlogs((prev) => prev.filter((item) => item._id !== id));
       } catch (err){
         console.log(err)
       }
     },
-    [BASE_URL]
+    []
   );
 
   useEffect(() => {

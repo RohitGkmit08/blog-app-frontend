@@ -139,7 +139,7 @@ const Home = () => {
   );
 };
 
-/* ---------- STYLES ---------- */
+
 
 const heroSection = {
   textAlign: "center",

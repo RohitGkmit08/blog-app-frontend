@@ -8,7 +8,7 @@ export default function ApprovedComments() {
 
   const loadBlogs = useCallback(async () => {
     try {
-      const res = await api.get("/api/admin/blogs")
+      const res = await api.get("/admin/blogs")
       setBlogs(res.data.blogs || []);
     } catch (err) {
       console.error(err);
@@ -96,7 +96,12 @@ export default function ApprovedComments() {
 
       <hr />
 
-      {comments.map((c) => (
+      {comments.length === 0 && selectedBlog ? (
+        <p>No approved comments for this blog.</p>
+      ) : !selectedBlog ? (
+        <p>Please select a blog to view comments.</p>
+      ) : (
+        comments.map((c) => (
         <div
           key={c._id}
           style={{
@@ -111,7 +116,8 @@ export default function ApprovedComments() {
 
           <button onClick={() => handleDelete(c._id)}>Delete</button>
         </div>
-      ))}
+      ))
+      )}
     </div>
   );
 }

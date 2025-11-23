@@ -8,7 +8,7 @@ export default function PendingComments() {
 
   const loadBlogs = useCallback(async () => {
     try {
-      const res = await api.get("/api/admin/blogs")
+      const res = await api.get("/admin/blogs")
       setBlogs(res.data.blogs || []);
     } catch (err) {
       console.error(err);
@@ -24,7 +24,8 @@ export default function PendingComments() {
       );
       setComments(res.data.comments || []);
     } catch (err) {
-      console.error(err);
+      console.error("Error loading pending comments:", err);
+      setComments([]);
     }
   }, [selectedBlog]);
 
@@ -96,8 +97,10 @@ export default function PendingComments() {
 
       <hr />
 
-      {comments.length === 0 ? (
-        <p>No pending comments.</p>
+      {comments.length === 0 && selectedBlog ? (
+        <p>No pending comments for this blog.</p>
+      ) : !selectedBlog ? (
+        <p>Please select a blog to view comments.</p>
       ) : (
         comments.map((c) => (
           <div

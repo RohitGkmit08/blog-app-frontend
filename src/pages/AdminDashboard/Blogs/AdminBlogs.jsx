@@ -12,7 +12,7 @@ export default function AdminBlogs() {
       setLoading(true);
       setError("");
 
-      const res = await api.get("/api/admin/blogs");
+      const res = await api.get("/admin/blogs");
       setBlogs(res.data.blogs || []);
 
     } catch (err) {
@@ -28,7 +28,7 @@ export default function AdminBlogs() {
       if (!window.confirm("Delete this blog?")) return;
 
       try {
-        await api.delete(`/api/admin/blogs/${id}`);
+        await api.delete(`/admin/blogs/${id}`);
         setBlogs((prev) => prev.filter((b) => b._id !== id));
       } catch (err) {
         console.error(err);

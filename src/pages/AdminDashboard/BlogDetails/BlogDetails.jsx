@@ -38,7 +38,7 @@ const BlogDetails = () => {
     setMessage("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/comments/add", {
+      const response = await fetch("http://localhost:3000/comments/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

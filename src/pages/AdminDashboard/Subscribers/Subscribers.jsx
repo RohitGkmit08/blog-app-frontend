@@ -7,7 +7,7 @@ export default function Subscribers() {
 
   const fetchSubscribers = useCallback(async () => {
     try {
-      const res = await api.get("/api/admin/subscribers");
+      const res = await api.get("/subscribers/admin/subscribers");
       setSubscribers(res.data.subscribers || []);
     } catch (error) {
       console.error("Failed to fetch subscribers:", error);
@@ -17,11 +17,17 @@ export default function Subscribers() {
   }, []);
  
   const deleteSubscriber = useCallback(async (id) => {
+    if (!window.confirm("Are you sure you want to delete this subscriber?")) {
+      return;
+    }
+    
     try {
-      await api.delete(`/api/admin/subscribers/${id}`);
+      await api.delete(`/subscribers/admin/subscribers/${id}`);
       setSubscribers((prev) => prev.filter((s) => s._id !== id));
+      alert("Subscriber deleted successfully");
     } catch (error) {
       console.error("Failed to delete subscriber:", error);
+      alert(error.response?.data?.message || "Failed to delete subscriber. Please try again.");
     }
   }, []);
 

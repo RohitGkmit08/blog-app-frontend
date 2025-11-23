@@ -15,6 +15,7 @@ export default function BlogDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [commentStatus, setCommentStatus] = useState("");
+
   const blogId = blog?._id;
 
   const formattedDate = useMemo(() => {
@@ -27,38 +28,45 @@ export default function BlogDetails() {
     });
   }, [blog]);
 
+  
+  // ----------------------------------------------------------
   const loadApprovedComments = useCallback(async (blogId) => {
     if (!blogId) {
       setComments([]);
       return;
     }
     try {
-      const res = await api.get(`/api/comments/${blogId}/approved`);
-
+      const res = await api.get(`/comments/${blogId}/approved`);
       setComments(res.data.comments || []);
     } catch (err) {
       console.error("Error loading comments:", err);
+      setComments([]);
     }
   }, []);
 
+  
   const loadBlog = useCallback(async () => {
     setLoading(true);
     setError("");
+
     try {
-      const res = await api.get(`/api/blogs/${slug}`);
+      const res = await api.get(`/blogs/${slug}`);
       setBlog(res.data.blog);
       await loadApprovedComments(res.data.blog?._id);
+
     } catch (err) {
       const token = localStorage.getItem("adminToken");
       const canUseAdminFallback = token && looksLikeObjectId(slug);
 
       if (canUseAdminFallback) {
         try {
-          const adminRes = await api.get(`/api/admin/blogs/${slug}`);
+          
+          const adminRes = await api.get(`/admin/blogs/${slug}`);
           const fallbackBlog = adminRes.data.blog || adminRes.data.updatedBlog;
           setBlog(fallbackBlog);
           await loadApprovedComments(fallbackBlog?._id);
           return;
+
         } catch (adminErr) {
           console.error("Admin fetch failed:", adminErr);
           setError("Unable to load this blog.");
@@ -70,15 +78,20 @@ export default function BlogDetails() {
             : "Unable to load this blog."
         );
       }
+
       console.error("Error loading blog:", err);
     } finally {
       setLoading(false);
     }
   }, [slug, loadApprovedComments]);
 
+  // ----------------------------------------------------------
+  // FIXED ROUTE: submit comment
+  // ----------------------------------------------------------
   const handleCommentSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+
       if (!userComment.trim()) {
         setCommentStatus("Please enter a comment before submitting.");
         return;
@@ -93,9 +106,8 @@ export default function BlogDetails() {
       }
 
       try {
-          await api.post(`/api/comments/add`, {
-          blogId,
-          userId: "AnonymousUser",
+        await api.post(`/comments/add`, {
+          blogId: blogId,
           comment: userComment,
           email: userEmail,
         });
@@ -103,6 +115,7 @@ export default function BlogDetails() {
         setCommentStatus("Comment submitted for review.");
         setUserComment("");
         setUserEmail("");
+
       } catch (err) {
         console.error("Error submitting comment:", err);
         setCommentStatus("Failed to submit comment. Please try again.");
@@ -113,18 +126,11 @@ export default function BlogDetails() {
 
   useEffect(() => {
     let ignore = false;
-
     const run = async () => {
-      if (!ignore) {
-        await loadBlog();
-      }
+      if (!ignore) await loadBlog();
     };
-
     run();
-
-    return () => {
-      ignore = true;
-    };
+    return () => { ignore = true; };
   }, [loadBlog]);
 
   if (loading) {
@@ -140,7 +146,7 @@ export default function BlogDetails() {
       <div style={{ maxWidth: 720, margin: "80px auto", textAlign: "center" }}>
         <h2 style={{ marginBottom: 16 }}>{error}</h2>
         <p style={{ color: "#6b7280" }}>
-          Please check the URL or return to the homepage to view other articles.
+          Please check the URL or return to the homepage.
         </p>
       </div>
     );
@@ -150,27 +156,30 @@ export default function BlogDetails() {
 
   return (
     <article style={pageStyle}>
+      {/* Blog Header */}
       <div style={heroText}>
         <p style={eyebrow}>{blog.category}</p>
         <h1 style={titleStyle}>{blog.title}</h1>
         {blog.subTitle && <p style={subtitleStyle}>{blog.subTitle}</p>}
-
         <div style={metaRow}>
           <span>By {blog.authorName || "Admin"}</span>
           {formattedDate && <span>• {formattedDate}</span>}
         </div>
       </div>
 
+      {/* Blog Image */}
       {blog.image && (
         <div style={imageWrapper}>
           <img src={blog.image} alt={blog.title} style={imageStyle} />
         </div>
       )}
 
+      {/* Blog Body */}
       <section style={bodyStyle}>
         <p>{blog.description}</p>
       </section>
 
+      {/* Comments Section */}
       <section style={{ marginTop: 48 }}>
         <div style={sectionHeader}>
           <h2 style={{ margin: 0 }}>Comments</h2>
@@ -198,10 +207,13 @@ export default function BlogDetails() {
         )}
       </section>
 
+      {/* Comment Form */}
       <section style={formWrapper}>
         <h3 style={{ marginBottom: 12 }}>Leave a Comment</h3>
         {commentStatus && (
-          <p style={{ color: "#2563eb", marginBottom: 12 }}>{commentStatus}</p>
+          <p style={{ color: "#2563eb", marginBottom: 12 }}>
+            {commentStatus}
+          </p>
         )}
         <form onSubmit={handleCommentSubmit}>
           <label style={labelStyle}>
@@ -229,6 +241,8 @@ export default function BlogDetails() {
     </article>
   );
 }
+
+// ----------------------- styles (unchanged) -----------------------
 
 const pageStyle = {
   maxWidth: 860,

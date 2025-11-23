@@ -96,7 +96,12 @@ export default function RejectedComments() {
 
       <hr />
 
-      {comments.map((c) => (
+      {comments.length === 0 && selectedBlog ? (
+        <p>No rejected comments for this blog.</p>
+      ) : !selectedBlog ? (
+        <p>Please select a blog to view comments.</p>
+      ) : (
+        comments.map((c) => (
         <div
           key={c._id}
           style={{
@@ -111,7 +116,8 @@ export default function RejectedComments() {
 
           <button onClick={() => handleDelete(c._id)}>Delete</button>
         </div>
-      ))}
+      ))
+      )}
     </div>
   );
 }

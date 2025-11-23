@@ -59,7 +59,7 @@ export default function DashboardLayout() {
 
   const handleLogoutToUserMode = useCallback(() => {
   logout(); // clears token
-  navigate("/", { replace: true }); // go to homepage (user mode)
+  navigate("/", { replace: true }); // go to homepage 
 }, [logout, navigate]);
 
 
