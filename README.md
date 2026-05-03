@@ -1,16 +1,32 @@
-# React + Vite
+# MyBlog — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The frontend of a full-stack blogging platform built with Vite + React.
+Previously deployed on AWS EC2.
 
-Currently, two official plugins are available:
+## Tech Stack
+- React.js, JavaScript (ES6+)
+- Vite
+- REST API integration
+- JWT-based authentication
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- Browse and read blogs with category-based filtering
+- Rich text editor for blog creation
+- Admin dashboard for content and user management
+- Comment moderation — approve, reject, pending queue
+- Subscriber management
+- Responsive design across all screen sizes
 
-## React Compiler
+## Backend
+The backend repo is here: [blog-app-backend](https://github.com/RohitGkmit08/blog-app-backend)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Local Setup
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Configure your backend URL in `src/services/api.js`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Status
+Previously deployed on AWS EC2 with Nginx and PM2 (instance stopped).
